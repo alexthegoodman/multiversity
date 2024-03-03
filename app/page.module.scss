@@ -1,0 +1,46 @@
+.main {
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  text-align: center;
+
+  .heroInner {
+    max-width: 700px;
+  }
+
+  span {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 15px;
+  }
+  h1 {
+    font-size: 48px;
+  }
+  p {
+    font-size: 24px;
+  }
+  textarea {
+    width: 400px;
+    border-radius: 25px;
+    box-shadow: 0px 15px 15px 4px rgba(0, 0, 0, 0.12);
+    margin-bottom: 25px;
+    padding: 25px;
+    font-size: 18px;
+  }
+}
+
+.examplePrompts {
+  ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 15px;
+  }
+}

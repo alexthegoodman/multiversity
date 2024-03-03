@@ -1,0 +1,18 @@
+.btn {
+  min-height: 70px;
+  min-width: 150px;
+  border-radius: 25px;
+  background-color: #bfd8af;
+  border: none;
+  //   box-shadow: 0px 15px 15px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 25px;
+}
+
+.smallBtn {
+  @extend .btn;
+  min-height: 50px;
+  min-width: 100px;
+  font-size: 14px;
+}
