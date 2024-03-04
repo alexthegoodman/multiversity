@@ -4,6 +4,7 @@ import TextareaAutosize from "react-textarea-autosize";
 
 import shared from "./shared.module.scss";
 import styles from "./page.module.scss";
+import { useState } from "react";
 
 const examplePrompts = [
   "FFmpeg C++ Development",
@@ -17,6 +18,8 @@ const examplePrompts = [
 ];
 
 export default function Home() {
+  const [prompt, setPrompt] = useState("");
+
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
@@ -31,6 +34,8 @@ export default function Home() {
             <TextareaAutosize
               minRows={4}
               placeholder="What do you want to learn about?"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
             />
           </div>
           <button className={shared.btn}>Start Learning</button>
@@ -39,7 +44,12 @@ export default function Home() {
             <ul>
               {examplePrompts.map((prompt) => (
                 <li key={prompt}>
-                  <button className={shared.smallBtn}>{prompt}</button>
+                  <button
+                    className={shared.smallBtn}
+                    onClick={() => setPrompt(prompt)}
+                  >
+                    {prompt}
+                  </button>
                 </li>
               ))}
             </ul>
