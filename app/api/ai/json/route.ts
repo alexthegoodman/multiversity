@@ -30,6 +30,13 @@ export async function POST(req: Request) {
     ],
   });
 
-  // return the json
-  return response;
+  if (response.choices.length === 0 || !response.choices[0].message.content) {
+    return new Response("No data from OpenAI", {
+      status: 500,
+    });
+  }
+
+  const content = JSON.parse(response.choices[0].message.content);
+
+  return Response.json(content);
 }
