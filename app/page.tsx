@@ -18,14 +18,20 @@ const examplePrompts = [
   "Apple 1",
 ];
 
-const LessonItem = ({ lesson }: { lesson: string }) => {
+const LessonItem = ({
+  allLessons,
+  lesson,
+}: {
+  allLessons: string[];
+  lesson: string;
+}) => {
   const [open, setOpen] = useState(false);
   const [lessonSections, setLessonSections] = useState<any>(null);
 
   const handleLessonOpen = async () => {
     if (!open) {
       setOpen(true);
-      const sections = await getLessonSections(lesson);
+      const sections = await getLessonSections(allLessons, lesson);
       setLessonSections(sections);
     }
   };
@@ -71,6 +77,7 @@ export default function Home() {
             <div className={styles.heroInner}>
               <span>Multiversity</span>
               <h1>Learn anything you can imagine, affordably</h1>
+              <h5>Self-Teaching at its finest</h5>
               <p>
                 Enter the name of a course you want to take, or try one of the
                 courses shown below.
@@ -112,14 +119,18 @@ export default function Home() {
         </main>
       )}
       {step === 1 && (
-        <main>
+        <main className={styles.main}>
           <h1>Learning Plan</h1>
           <pre>{prompt}</pre>
           <p>Here is the learning plan for the course you requested:</p>
           <p>{learningPlan?.title}</p>
-          <ul>
+          <ul className={styles.learningPlan}>
             {learningPlan.lessons.map((lesson: string, i: number) => (
-              <LessonItem key={`lesson${i}`} lesson={lesson} />
+              <LessonItem
+                key={`lesson${i}`}
+                allLessons={learningPlan.lessons}
+                lesson={lesson}
+              />
             ))}
           </ul>
           <h2>

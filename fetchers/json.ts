@@ -14,14 +14,17 @@ export const getLearningPlan = async (requestedCourse: string) => {
   return await response.json();
 };
 
-export const getLessonSections = async (lesson: string) => {
+export const getLessonSections = async (
+  allLessons: string[],
+  lesson: string
+) => {
   const response = await fetch(`/api/ai/json`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      prompt: lessonSectionsPrompt(lesson),
+      prompt: lessonSectionsPrompt(allLessons, lesson),
     }),
   });
 
