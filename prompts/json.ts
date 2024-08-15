@@ -10,17 +10,17 @@ Provide the Learning Plan as a JSON object as shown below:
 }
 `;
 
-export const lessonSectionsPrompt = (allLessons: string[], lesson: string) => `
+export const lessonSectionsPrompt = (allLessons: any[], lesson: any) => `
 The user has agreed to the following learning plan:
 
 Learning Plan:
 ${allLessons.map((les) => {
-  return `- ${les}\n`;
+  return `- ${les.lesson}\n`;
 })}
 
 Based on chosen lesson from the learning plan, please come up with 3 to 12 sections which give the learner a full understanding of the subject.
 
-Chosen Lesson: ${lesson}
+Chosen Lesson: ${lesson.lesson}
 
 Provide the sections as a JSON object as shown below:
 {
