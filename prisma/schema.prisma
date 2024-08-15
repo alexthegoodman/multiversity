@@ -1,0 +1,20 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Course {
+    id String @id @unique @default(uuid())
+
+    prompt       String @unique
+    learningPlan Json?
+
+    creatorAddress String
+
+    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+}

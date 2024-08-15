@@ -6,6 +6,8 @@ import shared from "./shared.module.scss";
 import styles from "./page.module.scss";
 import { useState } from "react";
 import { getLearningPlan, getLessonSections } from "@/fetchers/json";
+import { v4 as uuidv4 } from "uuid";
+import { getCourse, patchCourse } from "@/fetchers/course";
 
 const examplePrompts = [
   "FFmpeg C++ Development",
@@ -19,29 +21,52 @@ const examplePrompts = [
 ];
 
 const LessonItem = ({
-  allLessons,
+  prompt,
+  learningPlan,
   lesson,
 }: {
-  allLessons: string[];
-  lesson: string;
+  prompt: string;
+  learningPlan: any;
+  lesson: any;
 }) => {
   const [open, setOpen] = useState(false);
-  const [lessonSections, setLessonSections] = useState<any>(null);
+  const [lessonSections, setLessonSections] = useState<any>([]);
 
   const handleLessonOpen = async () => {
     if (!open) {
       setOpen(true);
-      const sections = await getLessonSections(allLessons, lesson);
-      setLessonSections(sections);
+
+      if (lesson.sections) {
+        setLessonSections(lesson.sections);
+      } else {
+        const sections = await getLessonSections(learningPlan.lessons, lesson);
+        setLessonSections(sections.sections);
+
+        const fullPlan = {
+          ...learningPlan,
+          lessons: learningPlan.lessons.map((les: any) => {
+            if (les.id === lesson.id) {
+              return {
+                ...les,
+                ...sections,
+              };
+            } else {
+              return les;
+            }
+          }),
+        };
+
+        await patchCourse(prompt, fullPlan);
+      }
     }
   };
 
   return (
     <>
-      <li onClick={handleLessonOpen}>{lesson}</li>
+      <li onClick={handleLessonOpen}>{lesson.lesson}</li>
       {open && (
         <ul>
-          {lessonSections?.sections?.map((section: string, i: number) => (
+          {lessonSections?.map((section: string, i: number) => (
             <li key={`section${i}`}>{section}</li>
           ))}
         </ul>
@@ -58,10 +83,38 @@ export default function Home() {
 
   const handleStartLearning = async () => {
     setIsLoading(true);
-    const plan = await getLearningPlan(prompt);
-    setLearningPlan(plan);
-    setStep(1);
-    setIsLoading(false);
+
+    // check if learning plan exists
+    const course = await getCourse(prompt);
+
+    console.info("course retrieved", course);
+
+    if (course?.id) {
+      setLearningPlan(course.learningPlan);
+      setStep(1);
+      setIsLoading(false);
+    } else {
+      // get new plan if not
+      const plan = await getLearningPlan(prompt);
+
+      const fullPlan = {
+        ...plan,
+        lessons: plan.lessons.map((lesson: string) => {
+          return {
+            lesson,
+            id: uuidv4(),
+          };
+        }),
+      };
+
+      setLearningPlan(fullPlan);
+      setStep(1);
+      setIsLoading(false);
+
+      await patchCourse(prompt, fullPlan);
+
+      console.info("course patched");
+    }
   };
 
   const handleGetStarted = () => {
@@ -128,7 +181,8 @@ export default function Home() {
             {learningPlan.lessons.map((lesson: string, i: number) => (
               <LessonItem
                 key={`lesson${i}`}
-                allLessons={learningPlan.lessons}
+                prompt={prompt}
+                learningPlan={learningPlan}
                 lesson={lesson}
               />
             ))}
