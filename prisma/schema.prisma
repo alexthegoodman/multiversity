@@ -17,4 +17,22 @@ model Course {
 
     updatedAt DateTime @updatedAt
     createdAt DateTime @default(now())
+
+    lessons Lesson[]
+}
+
+model Lesson {
+    id String @id @unique @default(uuid())
+
+    courseId String
+    course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+    lessonTitle String
+    sections    Json?
+    content     Json?
+
+    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+
+    @@unique([courseId, lessonTitle])
 }

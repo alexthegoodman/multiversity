@@ -1,24 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Multiversity - AI-Powered Learning Platform
+
+A personalized learning platform that generates AI-powered courses on any topic. Built with Next.js, Prisma, and OpenAI.
+
+## Features
+
+- **AI-Generated Courses**: Create comprehensive learning plans for any topic
+- **Lesson Caching**: Efficient database caching for lessons and content
+- **Interactive Learning**: Expandable lessons with sections and detailed content
+- **Progress Tracking**: Track learning progress through lessons and sections
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Recent Improvements
+
+- ✅ **Database Lesson Caching**: Added `Lesson` model for efficient content storage
+- ✅ **Enhanced Content Generation**: Rich lesson content with key points, examples, and exercises
+- ✅ **Better Error Handling**: Improved error responses and user feedback
+- ✅ **Performance Optimizations**: Reduced API calls through smart caching
+- ✅ **Progress Tracking API**: Foundation for tracking user progress
 
 ## Getting Started
 
-First, run the development server:
+1. **Install dependencies**:
+```bash
+npm install
+```
 
+2. **Set up the database**:
+```bash
+npx prisma migrate dev
+```
+
+3. **Configure environment variables**:
+```bash
+cp .env.example .env.local
+# Add your OpenAI API key and database URL
+```
+
+4. **Run the development server**:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 

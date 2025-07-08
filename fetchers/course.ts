@@ -10,6 +10,10 @@ export const patchCourse = async (prompt: string, learningPlan: any) => {
     }),
   });
 
+  if (!response.ok) {
+    throw new Error(`Failed to update course: ${response.statusText}`);
+  }
+
   return await response.json();
 };
 
@@ -21,11 +25,12 @@ export const getCourse = async (prompt: string) => {
       headers: {
         "Content-Type": "application/json",
       },
-      // body: JSON.stringify({
-      //   prompt,
-      // }),
     }
   );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch course: ${response.statusText}`);
+  }
 
   return await response.json();
 };

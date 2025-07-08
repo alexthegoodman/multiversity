@@ -27,3 +27,33 @@ Provide the sections as a JSON object as shown below:
   "sections": ["Section 1", "Section 2", "Section 3"]
 }
 `;
+
+export const lessonContentPrompt = (lessonTitle: string, sections: string[]) => `
+Please create comprehensive, educational content for the following lesson and its sections. The content should be detailed, engaging, and suitable for self-paced learning.
+
+Lesson: ${lessonTitle}
+
+Sections:
+${sections.map((section, index) => `${index + 1}. ${section}`).join('\n')}
+
+For each section, provide:
+1. A clear introduction to the topic
+2. Key concepts and definitions
+3. Practical examples or code snippets (if applicable)
+4. Important points to remember
+5. Practice exercises or questions
+
+Format the response as a JSON object with the following structure:
+{
+  "title": "${lessonTitle}",
+  "sections": [
+    {
+      "title": "Section 1 Title",
+      "content": "Detailed content for section 1...",
+      "keyPoints": ["Key point 1", "Key point 2"],
+      "examples": ["Example 1", "Example 2"],
+      "exercises": ["Exercise 1", "Exercise 2"]
+    }
+  ]
+}
+`;
