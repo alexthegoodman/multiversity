@@ -28,6 +28,36 @@ export const getCourse = async (prompt: string) => {
     }
   );
 
+  // if (!response.ok) {
+  //   throw new Error(`Failed to fetch course: ${response.statusText}`);
+  // }
+
+  return await response.json();
+};
+
+export const getRecentCourses = async (limit: number = 10) => {
+  const response = await fetch(`/api/courses/list?limit=${limit}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch recent courses: ${response.statusText}`);
+  }
+
+  return await response.json();
+};
+
+export const getCourseById = async (id: string) => {
+  const response = await fetch(`/api/courses/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   if (!response.ok) {
     throw new Error(`Failed to fetch course: ${response.statusText}`);
   }

@@ -1,6 +1,8 @@
 export const getLesson = async (courseId: string, lessonTitle: string) => {
   const response = await fetch(
-    `/api/lessons/get?courseId=${courseId}&lessonTitle=${encodeURIComponent(lessonTitle)}`,
+    `/api/lessons/get?courseId=${courseId}&lessonTitle=${encodeURIComponent(
+      lessonTitle
+    )}`,
     {
       method: "GET",
       headers: {
@@ -9,9 +11,9 @@ export const getLesson = async (courseId: string, lessonTitle: string) => {
     }
   );
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch lesson: ${response.statusText}`);
-  }
+  // if (!response.ok) {
+  //   throw new Error(`Failed to fetch lesson: ${response.statusText}`);
+  // }
 
   return await response.json();
 };

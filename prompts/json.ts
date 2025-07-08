@@ -57,3 +57,26 @@ Format the response as a JSON object with the following structure:
   ]
 }
 `;
+
+export const sectionContentPrompt = (lessonTitle: string, sectionTitle: string) => `
+Please create comprehensive, educational content for the following section within a lesson. The content should be detailed, engaging, and suitable for self-paced learning.
+
+Lesson: ${lessonTitle}
+Section: ${sectionTitle}
+
+Please provide:
+1. A clear introduction to the topic
+2. Key concepts and definitions
+3. Practical examples or code snippets (if applicable)
+4. Important points to remember
+5. Practice exercises or questions
+
+Format the response as a JSON object with the following structure:
+{
+  "title": "${sectionTitle}",
+  "content": "Detailed content for this section...",
+  "keyPoints": ["Key point 1", "Key point 2"],
+  "examples": ["Example 1", "Example 2"],
+  "exercises": ["Exercise 1", "Exercise 2"]
+}
+`;

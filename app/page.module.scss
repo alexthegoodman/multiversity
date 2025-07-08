@@ -1,73 +1,303 @@
 .main {
-  width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .hero {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f4f4f4;
+  min-height: 100vh;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    margin: 40px;
+    z-index: -1;
+  }
 
   .heroInner {
-    max-width: 700px;
+    max-width: 800px;
+    z-index: 1;
   }
 
-  span {
-    font-size: 24px;
+  .brandName {
+    font-size: clamp(2.5rem, 3vw, 2rem);
     display: block;
-    margin-bottom: 15px;
+    margin: 3rem 0;
+    color: white;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
   h1 {
-    font-size: 48px;
+    color: white;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
+
+  h5 {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+
   p {
-    font-size: 24px;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    line-height: 1.6;
   }
+
   textarea {
-    width: 400px;
-    border-radius: 25px;
-    box-shadow: 0px 15px 15px 4px rgba(0, 0, 0, 0.12);
-    margin-bottom: 25px;
-    padding: 25px;
-    font-size: 18px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 20px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #333;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.6);
+    }
   }
 }
 
 .examplePrompts {
+  margin-top: 3rem;
+
+  p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5rem;
+  }
+
   ul {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
   }
 }
 
 .learningPlan {
   display: block;
   list-style: none;
+  margin-top: 2rem;
 
   li {
     font-size: 18px;
-    padding: 15px;
-    border-radius: 15px;
-    background-color: coral;
-    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
     cursor: pointer;
-    margin: 0 0 10px 0;
+    margin: 0 0 12px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
 
     &:hover {
-      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 1);
     }
   }
 
   ul {
     li {
-      background-color: burlywood;
+      background: rgba(255, 255, 255, 0.8);
+      margin-left: 20px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.95);
+      }
     }
+  }
+}
+
+// Course page styles
+.courseHeader {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.courseTitle {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+.coursePrompt {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.promptLabel {
+  font-weight: 600;
+  color: #667eea;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.promptText {
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.courseDescription {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.planTitle {
+  color: #333;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 0;
+}
+
+.lessonItem {
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #667eea;
+  }
+}
+
+.sectionsContainer {
+  margin-left: 20px;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+}
+
+.sectionsTitle {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.sectionItem {
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+}
+
+.sectionTitle {
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.sectionContent {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.sectionText {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.contentBlock {
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.blockTitle {
+  color: #667eea;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.contentList {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.listItem {
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+  list-style: disc;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 0 16px;
+  }
+
+  .hero {
+    &::before {
+      margin: 20px;
+    }
+
+    .heroInner {
+      padding: 20px;
+    }
+
+    textarea {
+      max-width: 100%;
+    }
+  }
+
+  .examplePrompts ul {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .courseHeader {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .sectionsContainer {
+    margin-left: 10px;
+    padding: 0.75rem;
+  }
+
+  .sectionContent {
+    padding: 1rem;
   }
 }

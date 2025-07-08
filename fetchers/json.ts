@@ -1,4 +1,4 @@
-import { learningPlanPrompt, lessonSectionsPrompt, lessonContentPrompt } from "@/prompts/json";
+import { learningPlanPrompt, lessonSectionsPrompt, lessonContentPrompt, sectionContentPrompt } from "@/prompts/json";
 
 export const getLearningPlan = async (requestedCourse: string) => {
   const response = await fetch(`/api/ai/json`, {
@@ -39,6 +39,20 @@ export const getLessonContent = async (lessonTitle: string, sections: string[]) 
     },
     body: JSON.stringify({
       prompt: lessonContentPrompt(lessonTitle, sections),
+    }),
+  });
+
+  return await response.json();
+};
+
+export const getSectionContent = async (lessonTitle: string, sectionTitle: string) => {
+  const response = await fetch(`/api/ai/json`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: sectionContentPrompt(lessonTitle, sectionTitle),
     }),
   });
 
