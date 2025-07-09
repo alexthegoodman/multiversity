@@ -35,7 +35,7 @@ const LessonSidebar = ({ course, courseId }: LessonSidebarProps) => {
 
           console.info("cachedLesson", cachedLesson);
 
-          if (cachedLesson && cachedLesson.sections.sections.length > 0) {
+          if (cachedLesson && cachedLesson.sections?.sections.length) {
             console.info("use cache");
             const sections =
               cachedLesson.sections.sections || cachedLesson.sections;

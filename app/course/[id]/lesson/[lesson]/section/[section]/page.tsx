@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { getCourseById } from "@/fetchers/course";
 import { getSectionContent } from "@/fetchers/json";
@@ -36,6 +36,8 @@ export default function SectionPage() {
   const [isLoadingContent, setIsLoadingContent] = useState(false);
   const [isLoadingVideos, setIsLoadingVideos] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const hasRun = useRef(false);
 
   const convertSlugToTitle = (slug: string) => {
     return slug
@@ -95,14 +97,16 @@ export default function SectionPage() {
       }
     };
 
-    if (courseId) {
+    if (courseId && !course) {
       fetchCourse();
     }
   }, [courseId]);
 
   useEffect(() => {
     const loadSectionContent = async () => {
-      if (!course) return;
+      if (!course || hasRun.current) return;
+
+      hasRun.current = true;
 
       const { lesson, section } = findLessonAndSection(
         course,
