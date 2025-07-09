@@ -94,7 +94,8 @@
   }
 
   textarea {
-    @apply font-inherit resize-y outline-none border-2 border-transparent transition-all duration-200 focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)];
+    @apply resize-y outline-none border-2 border-transparent transition-all duration-200 focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)];
+    font-family: inherit;
   }
 }
 
