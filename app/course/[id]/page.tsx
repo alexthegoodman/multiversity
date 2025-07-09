@@ -4,216 +4,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getCourseById } from "@/fetchers/course";
-import { getLesson, patchLesson } from "@/fetchers/lesson";
-import { getLessonSections, getSectionContent } from "@/fetchers/json";
-import { patchCourse } from "@/fetchers/course";
-// No more SCSS imports - using Tailwind classes directly
-
-const Sidebar = ({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: () => void }) => {
-  const sidebarItems = [
-    { icon: '🏠', label: 'Home', active: false },
-    { icon: '📚', label: 'My Courses', active: true },
-    { icon: '📖', label: 'Learning Path', active: false },
-    { icon: '⭐', label: 'Favorites', active: false },
-    { icon: '📊', label: 'Progress', active: false },
-    { icon: '⚙️', label: 'Settings', active: false },
-  ];
-
-  return (
-    <aside className={`${isCollapsed ? 'w-15' : 'w-60'} bg-white/95 backdrop-blur-md border-r border-white/20 transition-all duration-300 sticky top-[70px] h-[calc(100vh-70px)] overflow-y-auto`}>
-      <div className="p-4 h-full flex flex-col">
-        <nav className="flex-1">
-          {sidebarItems.map((item, index) => (
-            <div key={index} className={`flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600 ${item.active ? 'bg-blue-600/15 text-blue-600 font-semibold' : ''}`}>
-              <span className="text-xl min-w-[20px] text-center">{item.icon}</span>
-              {!isCollapsed && <span className="text-sm whitespace-nowrap">{item.label}</span>}
-            </div>
-          ))}
-        </nav>
-        
-        {!isCollapsed && (
-          <div className="border-t border-blue-600/10 pt-4 mt-4">
-            <div>
-              <h4 className="text-xs text-gray-500 uppercase tracking-wider mb-2 px-4">Quick Actions</h4>
-              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600">
-                <span className="text-xl min-w-[20px] text-center">➕</span>
-                <span className="text-sm whitespace-nowrap">Create Course</span>
-              </div>
-              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600">
-                <span className="text-xl min-w-[20px] text-center">🔍</span>
-                <span className="text-sm whitespace-nowrap">Browse All</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </aside>
-  );
-};
-
-const SectionItem = ({
-  lessonTitle,
-  sectionTitle,
-  courseId,
-}: {
-  lessonTitle: string;
-  sectionTitle: string;
-  courseId: string;
-}) => {
-  const [sectionContent, setSectionContent] = useState<any>(null);
-  const [isLoadingContent, setIsLoadingContent] = useState(false);
-
-  const handleGenerateContent = async () => {
-    setIsLoadingContent(true);
-
-    try {
-      const content = await getSectionContent(lessonTitle, sectionTitle);
-      setSectionContent(content);
-
-      // TODO: Update storage to save individual section content
-    } catch (error) {
-      console.error("Error generating section content:", error);
-    } finally {
-      setIsLoadingContent(false);
-    }
-  };
-
-  return (
-    <div className="mb-6 pl-4">
-      <h5 className="text-gray-800 mb-3 text-lg font-semibold">{sectionTitle}</h5>
-      
-      {!sectionContent ? (
-        <button
-          onClick={handleGenerateContent}
-          disabled={isLoadingContent}
-          className="btn-small"
-        >
-          {isLoadingContent
-            ? "Generating Content..."
-            : "Generate Section Content"}
-        </button>
-      ) : (
-        <div className="bg-white/90 p-6 rounded-lg shadow-md border border-white/30">
-          <p className="text-gray-800 leading-relaxed mb-4">{sectionContent.content}</p>
-
-          {sectionContent.keyPoints && sectionContent.keyPoints.length > 0 && (
-            <div className="mb-6 last:mb-0">
-              <strong className="text-blue-600 text-base font-semibold mb-2 block">Key Points:</strong>
-              <ul className="m-0 pl-6 list-disc">
-                {sectionContent.keyPoints.map((point: string, j: number) => (
-                  <li key={`point${j}`} className="text-gray-800 mb-2 leading-relaxed list-disc">{point}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {sectionContent.examples && sectionContent.examples.length > 0 && (
-            <div className="mb-6 last:mb-0">
-              <strong className="text-blue-600 text-base font-semibold mb-2 block">Examples:</strong>
-              <ul className="m-0 pl-6 list-disc">
-                {sectionContent.examples.map((example: string, j: number) => (
-                  <li key={`example${j}`} className="text-gray-800 mb-2 leading-relaxed list-disc">{example}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {sectionContent.exercises && sectionContent.exercises.length > 0 && (
-            <div className="mb-6 last:mb-0">
-              <strong className="text-blue-600 text-base font-semibold mb-2 block">Practice Exercises:</strong>
-              <ul className="m-0 pl-6 list-disc">
-                {sectionContent.exercises.map((exercise: string, j: number) => (
-                  <li key={`exercise${j}`} className="text-gray-800 mb-2 leading-relaxed list-disc">{exercise}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const LessonItem = ({
-  prompt,
-  learningPlan,
-  lesson,
-  courseId,
-}: {
-  prompt: string;
-  learningPlan: any;
-  lesson: any;
-  courseId: string;
-}) => {
-  const [open, setOpen] = useState(false);
-  const [lessonSections, setLessonSections] = useState<any>([]);
-
-  const handleLessonOpen = async () => {
-    if (!open) {
-      setOpen(true);
-
-      try {
-        const cachedLesson = await getLesson(courseId, lesson.lesson);
-
-        if (cachedLesson && cachedLesson.sections) {
-          setLessonSections(
-            cachedLesson.sections.sections || cachedLesson.sections
-          );
-        } else {
-          const sections = await getLessonSections(
-            learningPlan.lessons,
-            lesson
-          );
-          setLessonSections(sections.sections);
-
-          await patchLesson(courseId, lesson.lesson, sections);
-
-          const fullPlan = {
-            ...learningPlan,
-            lessons: learningPlan.lessons.map((les: any) => {
-              if (les.id === lesson.id) {
-                return {
-                  ...les,
-                  ...sections,
-                };
-              } else {
-                return les;
-              }
-            }),
-          };
-
-          await patchCourse(prompt, fullPlan);
-        }
-      } catch (error) {
-        console.error("Error loading lesson:", error);
-      }
-    }
-  };
-
-  return (
-    <>
-      <li
-        onClick={handleLessonOpen}
-        className="text-lg p-5 rounded-xl bg-white/95 text-gray-800 cursor-pointer mb-3 shadow-lg backdrop-blur-md border border-white/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:bg-white font-semibold hover:text-blue-600"
-      >
-        {lesson.lesson}
-      </li>
-      {open && (
-        <div className="ml-5 mt-4 p-4 bg-white/50 rounded-lg border-l-3 border-blue-600">
-          <h4 className="text-gray-800 mb-4 text-xl font-semibold">Sections:</h4>
-          {lessonSections?.map((section: string, i: number) => (
-            <SectionItem
-              key={`section${i}`}
-              lessonTitle={lesson.lesson}
-              sectionTitle={section}
-              courseId={courseId}
-            />
-          ))}
-        </div>
-      )}
-    </>
-  );
-};
 
 export default function CoursePage() {
   const params = useParams();
@@ -221,7 +11,6 @@ export default function CoursePage() {
   const [course, setCourse] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -241,63 +30,137 @@ export default function CoursePage() {
     }
   }, [courseId]);
 
+  const createLessonSlug = (lessonTitle: string) => {
+    return lessonTitle
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  };
+
+  const createSectionSlug = (sectionTitle: string) => {
+    return sectionTitle
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  };
+
   if (isLoading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-lg text-gray-600">Loading course...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="p-8">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <h2 className="text-red-800 font-semibold mb-2">Error</h2>
+          <p className="text-red-700">{error}</p>
+        </div>
+      </div>
+    );
   }
 
   if (!course) {
-    return <div>Course not found</div>;
+    return (
+      <div className="p-8">
+        <div className="text-center text-gray-600">Course not found</div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br blue-500 to-purple-600">
-      <nav className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-white/20 z-50 py-2">
-        <div className="w-full px-5 flex items-center justify-between gap-8">
-          <div className="flex items-center gap-4">
-            <button 
-              className="bg-none border-none text-xl text-blue-600 cursor-pointer p-2 rounded transition-colors hover:bg-blue-600/10"
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            >
-              ☰
-            </button>
-            <Link href="/" className="text-2xl font-bold text-blue-600 whitespace-nowrap">Multiversity</Link>
+    <div className="max-w-4xl mx-auto p-8">
+      {/* Course Header */}
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 mb-8 shadow-lg border border-white/20">
+        <h1 className="text-gray-800 mb-4 text-4xl md:text-5xl lg:text-6xl font-bold">
+          {course.learningPlan?.title}
+        </h1>
+        <div className="mb-6 p-4 bg-blue-600/10 rounded-lg border-l-4 border-blue-600">
+          <span className="font-semibold text-blue-600 block mb-2">Course Topic:</span>
+          <span className="text-gray-800 text-lg">{decodeURIComponent(course.prompt)}</span>
+        </div>
+        <p className="text-gray-600 mb-4">
+          Welcome to your personalized learning journey! Use the sidebar to navigate through lessons and sections. 
+          Each section contains detailed content, key points, examples, and practice exercises.
+        </p>
+      </div>
+
+      {/* Course Overview */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Overview</h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="bg-blue-50 rounded-lg p-4">
+            <h3 className="font-semibold text-blue-800 mb-2">Total Lessons</h3>
+            <p className="text-2xl font-bold text-blue-600">
+              {course.learningPlan?.lessons?.length || 0}
+            </p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Link href="/" className="text-blue-600 hover:underline">Home</Link>
-            <span className="text-gray-400">/</span>
-            <span>Course</span>
+          <div className="bg-green-50 rounded-lg p-4">
+            <h3 className="font-semibold text-green-800 mb-2">Learning Style</h3>
+            <p className="text-green-700">Self-paced, Interactive</p>
           </div>
         </div>
-      </nav>
-      
-      <div className="flex min-h-[calc(100vh-70px)]">
-        <Sidebar isCollapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-        <main className="flex-1 px-5 overflow-x-hidden">
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 mb-8 shadow-lg border border-white/20">
-          <h1 className="text-gray-800 mb-4 text-4xl md:text-5xl lg:text-6xl font-bold">Learning Plan</h1>
-          <div className="mb-6 p-4 bg-blue-600/10 rounded-lg border-l-4 border-blue-600">
-            <span className="font-semibold text-blue-600 block mb-2">Course Topic:</span>
-            <span className="text-gray-800 text-lg">{decodeURIComponent(course.prompt)}</span>
+      </div>
+
+      {/* Getting Started */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200 p-8 mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Getting Started</h2>
+        <p className="text-gray-700 mb-4">
+          Ready to begin your learning journey? Start with the first lesson by clicking on it in the sidebar, 
+          or jump to any specific section that interests you.
+        </p>
+        
+        {course.learningPlan?.lessons?.length > 0 && (
+          <div className="mt-6">
+            <h3 className="font-semibold text-gray-800 mb-3">Quick Start:</h3>
+            <div className="bg-white rounded-lg border border-blue-200 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-medium text-gray-900">
+                    {course.learningPlan.lessons[0].lesson}
+                  </h4>
+                  <p className="text-sm text-gray-600">First lesson in the course</p>
+                </div>
+                <div className="text-blue-600 font-medium">
+                  ← Click in sidebar to start
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-gray-600 mb-4">Here is the learning plan for the course you requested:</p>
-          <h2 className="text-gray-800 text-2xl md:text-3xl lg:text-4xl font-semibold mb-0">{course.learningPlan?.title}</h2>
-        </div>
-        <ul className="block list-none mt-8">
-          {course.learningPlan.lessons.map((lesson: string, i: number) => (
-            <LessonItem
-              key={`lesson${i}`}
-              prompt={decodeURIComponent(course.prompt)}
-              learningPlan={course.learningPlan}
-              lesson={lesson}
-              courseId={courseId}
-            />
+        )}
+      </div>
+
+      {/* Lesson List */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">All Lessons</h2>
+        <div className="space-y-4">
+          {course.learningPlan?.lessons?.map((lesson: any, index: number) => (
+            <div key={lesson.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-blue-800">
+                    {index + 1}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-gray-900 mb-1">
+                    {lesson.lesson}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Click on this lesson in the sidebar to explore its sections
+                  </p>
+                </div>
+              </div>
+            </div>
           ))}
-        </ul>
-      </main>
+        </div>
       </div>
     </div>
   );
