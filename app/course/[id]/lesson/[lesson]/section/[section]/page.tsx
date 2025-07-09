@@ -253,7 +253,7 @@ export default function SectionPage() {
                         ></iframe>
                       </div>
                       <div className="p-4">
-                        <h4 className="font-medium text-gray-900 mb-2 line-clamp-2">
+                        <h4 className="text-lg font-medium text-gray-900 mb-2 line-clamp-2">
                           {video.title}
                         </h4>
                         <p className="text-sm text-gray-600 mb-2">
