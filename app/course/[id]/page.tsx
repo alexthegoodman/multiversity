@@ -24,7 +24,7 @@ const Sidebar = ({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: ()
       <div className="p-4 h-full flex flex-col">
         <nav className="flex-1">
           {sidebarItems.map((item, index) => (
-            <div key={index} className={`flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-primary/10 hover:text-primary ${item.active ? 'bg-primary/15 text-primary font-semibold' : ''}`}>
+            <div key={index} className={`flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600 ${item.active ? 'bg-blue-600/15 text-blue-600 font-semibold' : ''}`}>
               <span className="text-xl min-w-[20px] text-center">{item.icon}</span>
               {!isCollapsed && <span className="text-sm whitespace-nowrap">{item.label}</span>}
             </div>
@@ -32,14 +32,14 @@ const Sidebar = ({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: ()
         </nav>
         
         {!isCollapsed && (
-          <div className="border-t border-primary/10 pt-4 mt-4">
+          <div className="border-t border-blue-600/10 pt-4 mt-4">
             <div>
               <h4 className="text-xs text-gray-500 uppercase tracking-wider mb-2 px-4">Quick Actions</h4>
-              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-primary/10 hover:text-primary">
+              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600">
                 <span className="text-xl min-w-[20px] text-center">➕</span>
                 <span className="text-sm whitespace-nowrap">Create Course</span>
               </div>
-              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-primary/10 hover:text-primary">
+              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600">
                 <span className="text-xl min-w-[20px] text-center">🔍</span>
                 <span className="text-sm whitespace-nowrap">Browse All</span>
               </div>
@@ -98,7 +98,7 @@ const SectionItem = ({
 
           {sectionContent.keyPoints && sectionContent.keyPoints.length > 0 && (
             <div className="mb-6 last:mb-0">
-              <strong className="text-primary text-base font-semibold mb-2 block">Key Points:</strong>
+              <strong className="text-blue-600 text-base font-semibold mb-2 block">Key Points:</strong>
               <ul className="m-0 pl-6 list-disc">
                 {sectionContent.keyPoints.map((point: string, j: number) => (
                   <li key={`point${j}`} className="text-gray-800 mb-2 leading-relaxed list-disc">{point}</li>
@@ -109,7 +109,7 @@ const SectionItem = ({
 
           {sectionContent.examples && sectionContent.examples.length > 0 && (
             <div className="mb-6 last:mb-0">
-              <strong className="text-primary text-base font-semibold mb-2 block">Examples:</strong>
+              <strong className="text-blue-600 text-base font-semibold mb-2 block">Examples:</strong>
               <ul className="m-0 pl-6 list-disc">
                 {sectionContent.examples.map((example: string, j: number) => (
                   <li key={`example${j}`} className="text-gray-800 mb-2 leading-relaxed list-disc">{example}</li>
@@ -120,7 +120,7 @@ const SectionItem = ({
 
           {sectionContent.exercises && sectionContent.exercises.length > 0 && (
             <div className="mb-6 last:mb-0">
-              <strong className="text-primary text-base font-semibold mb-2 block">Practice Exercises:</strong>
+              <strong className="text-blue-600 text-base font-semibold mb-2 block">Practice Exercises:</strong>
               <ul className="m-0 pl-6 list-disc">
                 {sectionContent.exercises.map((exercise: string, j: number) => (
                   <li key={`exercise${j}`} className="text-gray-800 mb-2 leading-relaxed list-disc">{exercise}</li>
@@ -194,12 +194,12 @@ const LessonItem = ({
     <>
       <li
         onClick={handleLessonOpen}
-        className="text-lg p-5 rounded-xl bg-white/95 text-gray-800 cursor-pointer mb-3 shadow-lg backdrop-blur-md border border-white/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:bg-white font-semibold hover:text-primary"
+        className="text-lg p-5 rounded-xl bg-white/95 text-gray-800 cursor-pointer mb-3 shadow-lg backdrop-blur-md border border-white/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:bg-white font-semibold hover:text-blue-600"
       >
         {lesson.lesson}
       </li>
       {open && (
-        <div className="ml-5 mt-4 p-4 bg-white/50 rounded-lg border-l-3 border-primary">
+        <div className="ml-5 mt-4 p-4 bg-white/50 rounded-lg border-l-3 border-blue-600">
           <h4 className="text-gray-800 mb-4 text-xl font-semibold">Sections:</h4>
           {lessonSections?.map((section: string, i: number) => (
             <SectionItem
@@ -254,20 +254,20 @@ export default function CoursePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-secondary">
+    <div className="min-h-screen bg-gradient-to-br blue-500 to-purple-600">
       <nav className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-white/20 z-50 py-2">
         <div className="w-full px-5 flex items-center justify-between gap-8">
           <div className="flex items-center gap-4">
             <button 
-              className="bg-none border-none text-xl text-primary cursor-pointer p-2 rounded transition-colors hover:bg-primary/10"
+              className="bg-none border-none text-xl text-blue-600 cursor-pointer p-2 rounded transition-colors hover:bg-blue-600/10"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             >
               ☰
             </button>
-            <Link href="/" className="text-2xl font-bold text-primary whitespace-nowrap">Multiversity</Link>
+            <Link href="/" className="text-2xl font-bold text-blue-600 whitespace-nowrap">Multiversity</Link>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Link href="/" className="text-primary hover:underline">Home</Link>
+            <Link href="/" className="text-blue-600 hover:underline">Home</Link>
             <span className="text-gray-400">/</span>
             <span>Course</span>
           </div>
@@ -279,8 +279,8 @@ export default function CoursePage() {
         <main className="flex-1 px-5 overflow-x-hidden">
         <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 mb-8 shadow-lg border border-white/20">
           <h1 className="text-gray-800 mb-4 text-4xl md:text-5xl lg:text-6xl font-bold">Learning Plan</h1>
-          <div className="mb-6 p-4 bg-primary/10 rounded-lg border-l-4 border-primary">
-            <span className="font-semibold text-primary block mb-2">Course Topic:</span>
+          <div className="mb-6 p-4 bg-blue-600/10 rounded-lg border-l-4 border-blue-600">
+            <span className="font-semibold text-blue-600 block mb-2">Course Topic:</span>
             <span className="text-gray-800 text-lg">{decodeURIComponent(course.prompt)}</span>
           </div>
           <p className="text-gray-600 mb-4">Here is the learning plan for the course you requested:</p>

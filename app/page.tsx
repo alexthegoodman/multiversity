@@ -25,7 +25,7 @@ const Sidebar = ({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: ()
       <div className="p-4 h-full flex flex-col">
         <nav className="flex-1">
           {sidebarItems.map((item, index) => (
-            <div key={index} className={`flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-primary/10 hover:text-primary ${item.active ? 'bg-primary/15 text-primary font-semibold' : ''}`}>
+            <div key={index} className={`flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600 ${item.active ? 'bg-blue-600/15 text-blue-600 font-semibold' : ''}`}>
               <span className="text-xl min-w-[20px] text-center">{item.icon}</span>
               {!isCollapsed && <span className="text-sm whitespace-nowrap">{item.label}</span>}
             </div>
@@ -33,14 +33,14 @@ const Sidebar = ({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: ()
         </nav>
         
         {!isCollapsed && (
-          <div className="border-t border-primary/10 pt-4 mt-4">
+          <div className="border-t border-blue-600/10 pt-4 mt-4">
             <div>
               <h4 className="text-xs text-gray-500 uppercase tracking-wider mb-2 px-4">Quick Actions</h4>
-              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-primary/10 hover:text-primary">
+              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600">
                 <span className="text-xl min-w-[20px] text-center">➕</span>
                 <span className="text-sm whitespace-nowrap">Create Course</span>
               </div>
-              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-primary/10 hover:text-primary">
+              <div className="flex items-center gap-4 p-3 text-gray-600 cursor-pointer transition-all duration-200 rounded-lg mx-2 mb-1 hover:bg-blue-600/10 hover:text-blue-600">
                 <span className="text-xl min-w-[20px] text-center">🔍</span>
                 <span className="text-sm whitespace-nowrap">Browse All</span>
               </div>
@@ -86,7 +86,7 @@ const CourseCard = ({
 
   const getThumbnailGradient = () => {
     const gradients = [
-      "from-primary to-secondary",
+      "blue-500 to-purple-600",
       "from-pink-400 to-red-500",
       "from-blue-400 to-cyan-500",
       "from-green-400 to-teal-500",
@@ -108,7 +108,7 @@ const CourseCard = ({
     <div className="bg-white/95 rounded-xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl group" onClick={onClick}>
       <div className={`relative h-45 flex items-center justify-center overflow-hidden bg-gradient-to-br ${getThumbnailGradient()}`}>
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-15 h-15 bg-white/90 rounded-full flex items-center justify-center text-xl text-primary pl-1">
+          <div className="w-15 h-15 bg-white/90 rounded-full flex items-center justify-center text-xl text-blue-600 pl-1">
             ▶
           </div>
         </div>
@@ -200,17 +200,17 @@ export default function Home() {
     <>
       {isLoading && <div className="loading">Loading...</div>}
       {!isLoading && (
-        <div className="min-h-screen bg-gradient-to-br from-primary to-secondary">
+        <div className="min-h-screen bg-gradient-to-br blue-500 to-purple-600">
           <nav className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-white/20 z-50 py-2">
             <div className="w-full px-5 flex items-center justify-between gap-8">
               <div className="flex items-center gap-4">
                 <button 
-                  className="bg-none border-none text-xl text-primary cursor-pointer p-2 rounded transition-colors hover:bg-primary/10"
+                  className="bg-none border-none text-xl text-blue-600 cursor-pointer p-2 rounded transition-colors hover:bg-blue-600/10"
                   onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                 >
                   ☰
                 </button>
-                <span className="text-2xl font-bold text-primary whitespace-nowrap">Multiversity</span>
+                <span className="text-2xl font-bold text-blue-600 whitespace-nowrap">Multiversity</span>
               </div>
               <div className="flex items-center flex-1 max-w-2xl gap-4">
                 <div className="flex-1">
@@ -219,11 +219,11 @@ export default function Home() {
                     placeholder="What do you want to learn about?"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    className="flex-1 px-4 py-3 border-2 border-primary/20 rounded-lg text-base bg-white text-gray-800 resize-none min-w-[300px] focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
+                    className="flex-1 px-4 py-3 border-2 border-blue-600/20 rounded-lg text-base bg-white text-gray-800 resize-none min-w-[300px] focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
                   />
                 </div>
                 <button
-                  className="px-6 py-3 bg-primary text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 whitespace-nowrap hover:bg-primary-600 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+                  className="px-6 py-3 bg-blue-600 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 whitespace-nowrap hover:bg-blue-600-600 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
                   onClick={handleStartLearning}
                   disabled={isLoading}
                 >
