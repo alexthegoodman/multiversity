@@ -254,7 +254,7 @@ export default function CoursePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br blue-500 to-purple-600">
+    <div className="min-h-screen bg-linear-to-br blue-500 to-purple-600">
       <nav className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-white/20 z-50 py-2">
         <div className="w-full px-5 flex items-center justify-between gap-8">
           <div className="flex items-center gap-4">

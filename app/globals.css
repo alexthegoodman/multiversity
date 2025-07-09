@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primary: #667eea;
@@ -12,7 +12,7 @@
   --color-primary-700: #4b5cc4;
   --color-primary-800: #3d4ba0;
   --color-primary-900: #334080;
-  
+
   --color-secondary: #764ba2;
   --color-secondary-50: #f5f3ff;
   --color-secondary-100: #ede9fe;
@@ -24,11 +24,11 @@
   --color-secondary-700: #5b21b6;
   --color-secondary-800: #4c1d95;
   --color-secondary-900: #3c1a78;
-  
+
   --spacing-15: 3.75rem;
   --size-45: 11.25rem;
   --border-width-3: 3px;
-  
+
   /* Define gradient color stops */
   --gradient-color-stops: from-primary, to-secondary;
 }
@@ -110,6 +110,6 @@
   }
 
   .loading {
-    @apply fixed inset-0 bg-blue-600/90 flex items-center justify-center text-white text-lg font-semibold z-[1000] backdrop-blur-sm;
+    @apply fixed inset-0 bg-blue-600/90 flex items-center justify-center text-white text-lg font-semibold z-1000 backdrop-blur-sm;
   }
 }

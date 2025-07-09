@@ -106,7 +106,7 @@ const CourseCard = ({
 
   return (
     <div className="bg-white/95 rounded-xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl group" onClick={onClick}>
-      <div className={`relative h-45 flex items-center justify-center overflow-hidden bg-gradient-to-br ${getThumbnailGradient()}`}>
+      <div className={`relative h-45 flex items-center justify-center overflow-hidden bg-linear-to-br ${getThumbnailGradient()}`}>
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="w-15 h-15 bg-white/90 rounded-full flex items-center justify-center text-xl text-blue-600 pl-1">
             ▶
@@ -200,7 +200,7 @@ export default function Home() {
     <>
       {isLoading && <div className="loading">Loading...</div>}
       {!isLoading && (
-        <div className="min-h-screen bg-gradient-to-br blue-500 to-purple-600">
+        <div className="min-h-screen bg-linear-to-br blue-500 to-purple-600">
           <nav className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-white/20 z-50 py-2">
             <div className="w-full px-5 flex items-center justify-between gap-8">
               <div className="flex items-center gap-4">
@@ -236,7 +236,7 @@ export default function Home() {
           <div className="flex min-h-[calc(100vh-70px)]">
             <Sidebar isCollapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
             <main className="flex-1 px-5 overflow-x-hidden">
-            <section className="text-center py-16 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md my-8 rounded-2xl">
+            <section className="text-center py-16 bg-linear-to-br from-white/10 to-white/5 backdrop-blur-md my-8 rounded-2xl">
               <div className="max-w-3xl mx-auto">
                 <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-shadow-lg">Learn anything you can imagine, affordably</h1>
                 <p className="text-white/90 text-lg md:text-xl lg:text-2xl leading-relaxed">
