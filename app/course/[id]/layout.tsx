@@ -95,7 +95,7 @@ const LessonSidebar = ({ course, courseId }: LessonSidebarProps) => {
   };
 
   return (
-    <aside className="w-80 bg-white/90 backdrop-blur-md border-r border-white/20 sticky top-[70px] h-[calc(100vh-70px)] overflow-y-auto">
+    <aside className="w-80 bg-white/90 backdrop-blur-md border-r border-white/20 sticky top-[10px] h-[calc(100vh-70px)] overflow-y-auto">
       <div className="p-4">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-2">

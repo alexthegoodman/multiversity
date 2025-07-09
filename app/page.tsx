@@ -88,10 +88,10 @@ const CourseCard = ({
   };
 
   return (
-    <div className="bg-white/95 rounded-xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl group" onClick={handleCourseClick}>
-      <div className={`relative h-45 flex items-center justify-center overflow-hidden bg-linear-to-br ${getThumbnailGradient()}`}>
-        <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-15 h-15 bg-white/90 rounded-full flex items-center justify-center text-xl text-blue-600 pl-1">
+    <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 transition-all duration-300 cursor-pointer hover:shadow-md group" onClick={handleCourseClick}>
+      <div className={`relative h-45 flex items-center justify-center overflow-hidden bg-gradient-to-br from-${getThumbnailGradient()}`}>
+        <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="w-15 h-15 bg-white/95 rounded-full flex items-center justify-center text-xl text-gray-900 pl-1">
             ▶
           </div>
         </div>
@@ -100,11 +100,11 @@ const CourseCard = ({
         </div>
       </div>
       <div className="p-5">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{getCourseTitle()}</h3>
-        <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">{getCourseDescription()}</p>
-        <div className="flex items-center text-xs text-gray-500 gap-2">
+        <h3 className="text-xl font-normal text-gray-900 mb-3 line-clamp-2 leading-tight">{getCourseTitle()}</h3>
+        <p className="text-gray-700 text-base leading-relaxed mb-4 line-clamp-2">{getCourseDescription()}</p>
+        <div className="flex items-center text-sm text-gray-600 gap-2">
           <span className="font-medium">{getLessonCount()} lessons</span>
-          <span className="text-gray-300">•</span>
+          <span className="text-gray-400">•</span>
           <span className="font-medium">Self-paced</span>
         </div>
       </div>
@@ -145,10 +145,10 @@ export default function Home() {
       {isLoading && <div className="loading">Loading...</div>}
       {!isLoading && (
         <>
-          <section className="text-center py-16 bg-linear-to-br from-white/10 to-white/5 backdrop-blur-md my-8 rounded-2xl">
+          <section className="text-center py-20 bg-gray-50 my-12 rounded-lg border border-gray-200">
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-shadow-lg">Learn anything you can imagine, affordably</h1>
-              <p className="text-white/90 text-lg md:text-xl lg:text-2xl leading-relaxed">
+              <h1 className="text-gray-900 text-4xl md:text-5xl lg:text-6xl font-bold mb-8">Learn anything you can imagine, affordably</h1>
+              <p className="text-gray-700 text-lg md:text-xl lg:text-2xl leading-relaxed">
                 Self-teaching at its finest - explore courses that are hard to
                 find or expensive elsewhere
               </p>
@@ -157,8 +157,8 @@ export default function Home() {
 
           <section className="my-12">
             <div className="mb-8">
-              <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-semibold mb-2">Popular Courses</h2>
-              <p className="text-white/80 text-lg">Start your learning journey with these trending topics</p>
+              <h2 className="text-gray-900 text-3xl md:text-4xl lg:text-5xl font-normal mb-3">Popular Courses</h2>
+              <p className="text-gray-700 text-lg">Start your learning journey with these trending topics</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
               {examplePrompts.map((prompt, index) => (
@@ -174,8 +174,8 @@ export default function Home() {
           {recentCourses.length > 0 && (
             <section className="my-12">
               <div className="mb-8">
-                <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-semibold mb-2">Recently Created</h2>
-                <p className="text-white/80 text-lg">Continue learning with your recent courses</p>
+                <h2 className="text-gray-900 text-3xl md:text-4xl lg:text-5xl font-normal mb-3">Recently Created</h2>
+                <p className="text-gray-700 text-lg">Continue learning with your recent courses</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 {recentCourses.map((course) => (
