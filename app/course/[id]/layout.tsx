@@ -33,7 +33,10 @@ const LessonSidebar = ({ course, courseId }: LessonSidebarProps) => {
         try {
           const cachedLesson = await getLesson(courseId, lessonTitle);
 
-          if (cachedLesson && cachedLesson.sections) {
+          console.info("cachedLesson", cachedLesson);
+
+          if (cachedLesson && cachedLesson.sections.sections.length > 0) {
+            console.info("use cache");
             const sections =
               cachedLesson.sections.sections || cachedLesson.sections;
             setLessonSections((prev) => ({
@@ -41,10 +44,11 @@ const LessonSidebar = ({ course, courseId }: LessonSidebarProps) => {
               [lessonId]: sections,
             }));
           } else {
+            console.info("generating");
             const sections = await getLessonSections(
               course.learningPlan.lessons,
-              // { lesson: lessonTitle, id: lessonId }
-              lessonTitle
+              { lesson: lessonTitle, id: lessonId }
+              // lessonTitle
             );
             setLessonSections((prev) => ({
               ...prev,

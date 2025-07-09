@@ -4,12 +4,21 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { getCourseById } from "@/fetchers/course";
 import { getSectionContent } from "@/fetchers/json";
+import { getYouTubeVideos } from "@/fetchers/youtube";
 
 interface SectionContent {
   content: string;
   keyPoints?: string[];
   examples?: string[];
   exercises?: string[];
+}
+
+interface YouTubeVideo {
+  id: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  channelTitle: string;
 }
 
 export default function SectionPage() {
@@ -22,8 +31,10 @@ export default function SectionPage() {
   const [sectionContent, setSectionContent] = useState<SectionContent | null>(
     null
   );
+  const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingContent, setIsLoadingContent] = useState(false);
+  const [isLoadingVideos, setIsLoadingVideos] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const convertSlugToTitle = (slug: string) => {
@@ -108,6 +119,18 @@ export default function SectionPage() {
             courseId
           );
           setSectionContent(content);
+
+          // Load YouTube videos after content is loaded
+          setIsLoadingVideos(true);
+          try {
+            const videos = await getYouTubeVideos(lesson.lesson, section);
+            setYoutubeVideos(videos);
+          } catch (videoError) {
+            console.error("Error loading YouTube videos:", videoError);
+            // Don't set error for videos, just log it
+          } finally {
+            setIsLoadingVideos(false);
+          }
         } catch (error) {
           console.error("Error loading section content:", error);
           setError("Failed to load section content");
@@ -200,6 +223,53 @@ export default function SectionPage() {
         </div>
       ) : sectionContent ? (
         <div className="space-y-8">
+          {/* YouTube Videos */}
+          {(isLoadingVideos || youtubeVideos.length > 0) && (
+            <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
+              <h3 className="text-xl font-normal text-gray-900 mb-4 flex items-center gap-2">
+                <span className="text-gray-600">📺</span>
+                Related Videos
+              </h3>
+              {isLoadingVideos ? (
+                <div className="text-center py-8">
+                  <div className="text-gray-600">Loading videos...</div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {youtubeVideos.slice(0, 2).map((video) => (
+                    <div
+                      key={video.id}
+                      className="bg-white rounded-lg border border-gray-200 overflow-hidden"
+                    >
+                      <div className="aspect-video">
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${video.id}`}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                      <div className="p-4">
+                        <h4 className="font-medium text-gray-900 mb-2 line-clamp-2">
+                          {video.title}
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">
+                          {video.channelTitle}
+                        </p>
+                        <p className="text-sm text-gray-700 line-clamp-3">
+                          {video.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Main Content */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
             <div className="prose max-w-none">
@@ -236,7 +306,7 @@ export default function SectionPage() {
                 <span className="text-gray-600">💡</span>
                 Examples
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-4 whitespace-break-spaces">
                 {sectionContent.examples.map((example, index) => (
                   <div
                     key={index}
